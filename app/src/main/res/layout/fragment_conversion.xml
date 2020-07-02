@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="12dp"
+    tools:context=".conversion.ConversionFragment">
+
+    <EditText
+        android:id="@+id/etBaseCurrency"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        tools:text="@string/hello_blank_fragment"
+        app:layout_constraintBottom_toTopOf="@+id/etConversionCurrency"
+        app:layout_constraintEnd_toStartOf="@+id/tvBaseCurrency"
+        app:layout_constraintStart_toStartOf="parent"
+        android:focusable="false"
+        android:inputType="numberDecimal"
+        android:editable="false"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvBaseCurrency"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="end|center"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/etBaseCurrency"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/etConversionCurrency"
+        android:text="curre"/>
+
+    <EditText
+        android:id="@+id/etConversionCurrency"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        tools:text="sadasdasdsad"
+        android:inputType="numberDecimal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tvConversionCurrency"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etBaseCurrency" />
+
+    <TextView
+        android:id="@+id/tvConversionCurrency"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="end|center"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/etConversionCurrency"
+        app:layout_constraintTop_toBottomOf="@+id/tvBaseCurrency"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="curre"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
