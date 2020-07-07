@@ -5,8 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.example.swenson.network.MarsApi
-import com.example.swenson.network.RatesResponse
+import com.example.swenson.network.CurrenciesAPI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -29,7 +28,7 @@ class CurrenciesViewModel:ViewModel() {
 
     private fun getCurrencies(){
         coroutineScope.launch {
-            val data = MarsApi.retrofitService.getPropertiesAsync()
+            val data = CurrenciesAPI.retrofitService.getPropertiesAsync()
             try {
                 _currencies.value = data.rates
             }catch (e: Exception) {

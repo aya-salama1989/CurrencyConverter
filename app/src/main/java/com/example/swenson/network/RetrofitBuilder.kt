@@ -20,13 +20,10 @@ interface CurrenciesApiService {
 }
 
 
-object MarsApi {
+object CurrenciesAPI {
     val retrofitService : CurrenciesApiService by lazy {
         retrofit.create(CurrenciesApiService::class.java) }
 }
-
-
-
 
 
 fun getClient(): OkHttpClient {
