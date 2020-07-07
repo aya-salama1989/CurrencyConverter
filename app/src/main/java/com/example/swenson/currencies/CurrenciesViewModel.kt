@@ -29,7 +29,7 @@ class CurrenciesViewModel:ViewModel() {
 
     private fun getCurrencies(){
         coroutineScope.launch {
-            val data = MarsApi.retrofitService.getPropertiesAsync().await()
+            val data = MarsApi.retrofitService.getPropertiesAsync()
             try {
                 _currencies.value = data.rates
             }catch (e: Exception) {
