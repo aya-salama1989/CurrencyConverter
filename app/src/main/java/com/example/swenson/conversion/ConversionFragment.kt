@@ -6,18 +6,18 @@ import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.View
 import com.example.swenson.R
-import com.example.swenson.currencies.Currency
+import com.example.swenson.currencies.domain.entity.CurrencyEntity
 import kotlinx.android.synthetic.main.fragment_conversion.*
 
 
 class ConversionFragment : Fragment(R.layout.fragment_conversion) {
 
-    lateinit var currency: Currency
+    lateinit var currencyEntity: CurrencyEntity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        currency = arguments?.getParcelable("currency")!!
+        currencyEntity = arguments?.getParcelable("currency")!!
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -27,10 +27,10 @@ class ConversionFragment : Fragment(R.layout.fragment_conversion) {
 
 
 
-        etConversionCurrency.setText(currency.value.toString())
-        tvConversionCurrency.text = currency.initials
+        etConversionCurrency.setText(currencyEntity.value.toString())
+        tvConversionCurrency.text = currencyEntity.initials
 
-        val rate = currency.value.getRate()
+        val rate = currencyEntity.value.getRate()
 
 
         var textWatcher = object : TextWatcher {

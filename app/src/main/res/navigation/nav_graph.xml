@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/currenciesFragment"
-        android:name="com.example.swenson.currencies.CurrenciesFragment"
+        android:name="com.example.swenson.currencies.view.CurrenciesFragment"
         android:label="fragment_currencies"
         tools:layout="@layout/fragment_currencies" >
 

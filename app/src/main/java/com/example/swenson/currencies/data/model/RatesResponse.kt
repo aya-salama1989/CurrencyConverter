@@ -1,4 +1,4 @@
-package com.example.swenson.network
+package com.example.swenson.currencies.data.model
 
 data class RatesResponse(
     val base: String,

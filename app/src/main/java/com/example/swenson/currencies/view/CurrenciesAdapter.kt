@@ -1,4 +1,4 @@
-package com.example.swenson.currencies
+package com.example.swenson.currencies.view
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ListAdapter
 import com.example.swenson.R
+import com.example.swenson.currencies.domain.entity.CurrencyEntity
 import kotlinx.android.synthetic.main.item_concurrency.view.*
 import kotlinx.android.synthetic.main.item_header.view.*
 import kotlinx.coroutines.CoroutineScope
@@ -18,15 +19,21 @@ private val ITEM_VIEW_TYPE_HEADER = 0
 private val ITEM_VIEW_TYPE_ITEM = 1
 
 class CurrenciesAdapter (val clickListener: CurrencyClickListener):
-    ListAdapter<CurrenciesAdapter.DataItem, RecyclerView.ViewHolder>(DiffCallback) {
+    ListAdapter<CurrenciesAdapter.DataItem, RecyclerView.ViewHolder>(
+        DiffCallback
+    ) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
-    fun addHeaderAndSubmitList(list: List<Currency>?) {
+    fun addHeaderAndSubmitList(list: List<CurrencyEntity>?) {
         adapterScope.launch {
             val items = when (list) {
                 null -> listOf(DataItem.Header)
-                else -> listOf(DataItem.Header) + list.map { DataItem.CurrencyItem(it) }
+                else -> listOf(DataItem.Header) + list.map {
+                    DataItem.CurrencyItem(
+                        it
+                    )
+                }
             }
             withContext(Dispatchers.Main) {
                 submitList(items)
@@ -37,8 +44,12 @@ class CurrenciesAdapter (val clickListener: CurrencyClickListener):
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            ITEM_VIEW_TYPE_HEADER -> TextViewHolder.from(parent)
-            ITEM_VIEW_TYPE_ITEM -> CurrencyViewHolder.from(parent)
+            ITEM_VIEW_TYPE_HEADER -> TextViewHolder.from(
+                parent
+            )
+            ITEM_VIEW_TYPE_ITEM -> CurrencyViewHolder.from(
+                parent
+            )
             else -> throw ClassCastException("Unknown viewType ${viewType}")
         }
     }
@@ -47,7 +58,7 @@ class CurrenciesAdapter (val clickListener: CurrencyClickListener):
         when (holder) {
             is CurrencyViewHolder -> {
                 val currencyItem = getItem(position) as DataItem.CurrencyItem
-                holder.bind(currencyItem.currency, clickListener)
+                holder.bind(currencyItem.currencyEntity, clickListener)
             }
             is TextViewHolder ->{
                 holder.itemView.base_currency.text = "EUR"
@@ -85,38 +96,42 @@ class CurrenciesAdapter (val clickListener: CurrencyClickListener):
             fun from(parent: ViewGroup): TextViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val view = layoutInflater.inflate(R.layout.item_header, parent, false)
-                return TextViewHolder(view)
+                return TextViewHolder(
+                    view
+                )
             }
         }
     }
 
 
     class CurrencyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(currency: Currency, clickListener: CurrencyClickListener) {
+        fun bind(currencyEntity: CurrencyEntity, clickListener: CurrencyClickListener) {
             itemView.setOnClickListener {
-              clickListener.onClick(currency)
+              clickListener.onClick(currencyEntity)
             }
-            itemView.txtCurrency.text = currency.initials
-            itemView.txtValue.text = currency.value.toString()
+            itemView.txtCurrency.text = currencyEntity.initials
+            itemView.txtValue.text = currencyEntity.value.toString()
         }
 
         companion object {
             fun from(parent: ViewGroup): CurrencyViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val view = layoutInflater.inflate(R.layout.item_concurrency, parent, false)
-                return CurrencyViewHolder(view)
+                return CurrencyViewHolder(
+                    view
+                )
             }
         }
     }
 
 
     sealed class DataItem {
-        data class CurrencyItem(val currency: Currency) : DataItem()
+        data class CurrencyItem(val currencyEntity: CurrencyEntity) : DataItem()
         object Header : DataItem()
     }
 
 
-    class CurrencyClickListener(val clickListener: (currency: Currency) -> Unit){
-        fun onClick(currency: Currency) = clickListener(currency)
+    class CurrencyClickListener(val clickListener: (currencyEntity: CurrencyEntity) -> Unit){
+        fun onClick(currencyEntity: CurrencyEntity) = clickListener(currencyEntity)
     }
 }

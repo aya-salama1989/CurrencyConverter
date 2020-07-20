@@ -1,11 +1,11 @@
-package com.example.swenson.currencies
+package com.example.swenson.currencies.view
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.example.swenson.network.CurrenciesAPI
+import com.example.swenson.currencies.domain.interactor.GetCurrenciesUseCase
+import com.example.swenson.currencies.domain.entity.CurrencyEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -13,12 +13,14 @@ import kotlinx.coroutines.launch
 
 class CurrenciesViewModel:ViewModel() {
 
-
     private var viewModelJob = Job()
 
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    private val _currencies = MutableLiveData<Map<String, Double>>()
+    private val _currencies = MutableLiveData<List<CurrencyEntity>>()
+
+    val currenciesList: LiveData<List<CurrencyEntity>>
+        get() = _currencies
 
 
     init {
@@ -27,10 +29,12 @@ class CurrenciesViewModel:ViewModel() {
 
 
     private fun getCurrencies(){
+        val getCurrenciesUseCase =
+            GetCurrenciesUseCase()
         coroutineScope.launch {
-            val data = CurrenciesAPI.retrofitService.getPropertiesAsync()
+            val data = getCurrenciesUseCase.build()
             try {
-                _currencies.value = data.rates
+                _currencies.value = data?.rates
             }catch (e: Exception) {
                Log.e("error", data.toString())
             }
@@ -41,15 +45,6 @@ class CurrenciesViewModel:ViewModel() {
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
-    }
-
-
-    val currenciesList: LiveData<List<Currency>> = Transformations.map(_currencies){ it ->
-        it.map { toCurrency(it.key, it.value) }
-    }
-
-    private fun toCurrency(key:String, value:Double): Currency{
-        return Currency(key, value)
     }
 
 }

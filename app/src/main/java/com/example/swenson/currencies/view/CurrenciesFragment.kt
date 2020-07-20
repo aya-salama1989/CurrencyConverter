@@ -1,4 +1,4 @@
-package com.example.swenson.currencies
+package com.example.swenson.currencies.view
 
 import android.os.Bundle
 import android.view.View
@@ -28,11 +28,12 @@ class CurrenciesFragment : Fragment(R.layout.fragment_currencies) {
             //TODO: get base currency from API
             //TODO: call the API once and for all
             //TODO: Send args
-            val adapter = CurrenciesAdapter(CurrenciesAdapter.CurrencyClickListener {
-                val bundle = Bundle()
-                bundle.putParcelable("currency", it)
-                findNavController().navigate(R.id.conversionFragment, bundle)
-            })
+            val adapter = CurrenciesAdapter(
+                CurrenciesAdapter.CurrencyClickListener {
+                    val bundle = Bundle()
+                    bundle.putParcelable("currency", it)
+                    findNavController().navigate(R.id.conversionFragment, bundle)
+                })
             rvCurrencies.adapter = adapter
             adapter.addHeaderAndSubmitList(it)
         })
